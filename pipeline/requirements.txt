@@ -1,0 +1,10 @@
+earthengine-api
+google-genai
+pandas
+openpyxl
+geopandas
+shapely
+pyogrio
+requests
+pillow
+python-dotenv

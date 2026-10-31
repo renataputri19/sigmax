@@ -1,0 +1,16 @@
+.git
+.gitignore
+.env
+.env.*
+vendor/
+node_modules/
+pipeline/
+tests/
+storage/logs/*
+output.xlsx
+*.log
+# Places-derived points stay out of the public deploy (Places content on a non-Google map)
+public/data/hotels.json
+# full-size zone PNGs; the app serves the JPEG versions
+public/data/img/*_20*.png
+public/data/img/overlay_rgb_*.png

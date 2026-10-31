@@ -1,0 +1,46 @@
+SIGMA X
+
+Σ X — Satellite Intelligence for Growth & Mapping Analysis
+
+One-liner
+
+SIGMA X reads satellite imagery and real-world activity data across Batam’s key economic zones, then uses Gemma 4 as a reasoning layer to turn raw spatial signals into a ranked, explained growth analysis — which zones are genuinely developing, which are stalling, and why.
+
+Problem
+
+Batam is in active investment-growth mode (KEK/free-trade-zone expansion), but judging real development progress currently relies on manual site visits and fragmented data. There’s no tool that combines satellite evidence of physical construction with ground-truth signals of economic activity (businesses, hotels, footfall) into one explained, continuously-updatable read of “where is Batam actually growing.”
+
+What SIGMA X does
+
+For a set of predefined Batam zones (e.g. Nongsa Digital Park, Batam Centre, Kabil Integrated Industrial Estate, Tanjung Uncang, Sekupang), it:
+
+Computes NDBI (built-up index) and NDVI (vegetation index) change over time from Sentinel-2 imagery, per zone — are structures expanding, is green space shrinking.
+Computes POI density and growth per zone from Google Maps data (hotels, F&B, retail, offices) — a proxy for real economic activity, not just construction.
+Feeds both signals (plus a satellite crop per zone) to Gemma 4, which acts as the analyst: it cross-reads the quantitative trend against the visual evidence and the POI signal, then produces a ranked, written growth assessment per zone — flagging genuine growth corridors (built-up AND activity both rising), underbuilt-but-in-demand zones (activity rising, construction lagging), and stalled zones (construction rising, no activity following).
+Gemma 4’s role — the core differentiator
+
+Gemma is not a caption generator here. It is given structured per-zone stats (ΔNDBI, ΔNDVI, POI growth %) as text plus the actual before/after satellite crop as image input, and has to reconcile them into a judgment call a plain threshold can’t make — e.g. “NDBI rose here but the image shows cleared land, not a finished structure, so treat this as early-stage, not realized growth.” Output: a short written verdict per zone plus a cross-zone ranking. This is the “Best Use of Gemma 4” angle — real multimodal synthesis, not decoration.
+
+MVP scope for today (hard deadline ~3 PM)
+
+Build in this order, cut from the bottom if time runs out:
+
+Pick 3-4 zones (fewer is fine — depth over breadth for the demo)
+Pull Sentinel-2 imagery + compute NDBI/NDVI for 2 time points per zone via Earth Engine (cache/export results, don’t compute live in the UI)
+Static POI counts per zone (reuse prior Google Maps tagging approach; a manually compiled table is acceptable if live API pulls are too slow)
+One Gemma 4 call per zone: structured stats + crop image in, written verdict out
+Single-page frontend: map or simple card grid, one card per zone, showing before/after thumbnail, the stats, and Gemma’s verdict
+Skip: database, auth, multi-service split, live recomputation — all stretch, not MVP
+Tech stack
+Google Earth Engine (Python API) for Sentinel-2 NDBI/NDVI
+Gemini API accessing Gemma 4 (multimodal: text + image input)
+Simple frontend: Next.js or even a static page + vanilla JS is fine given the time budget
+Deploy target: Cloud Run (single service is enough — do not replicate a multi-service architecture under this deadline)
+Data
+Sentinel-2 Surface Reflectance (via Earth Engine) for NDBI/NDVI
+Google Maps Places data for POI counts per zone (reuse the existing Jan 2024 Google Maps hotel scrape)
+Zone boundaries: rough hand-drawn polygons are fine for a hackathon demo — label them clearly as illustrative, not official
+Logo direction (ΣX)
+Wordmark-led, not an illustrative icon — "ΣX" set in a bold geometric sans (e.g. something in the Inter/Space Grotesk family), Σ and X the same weight so it reads as one unit, not two
+One accent color against dark/near-black or white — suggest a signal-green or electric-blue to echo “satellite/data” without going full generic-tech-blue
+Keep it legible at favicon size since it’ll likely end up as a tab icon too
