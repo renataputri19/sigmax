@@ -49,11 +49,12 @@
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; overflow: hidden; background: var(--page); color: var(--text-primary); font: 14px/1.5 Inter, system-ui, sans-serif; }
+body { display: flex; flex-direction: column; height: 100dvh; }  /* dvh: the visible height on phones, not the height behind the URL bar */
 h1, h2, h3, .display { font-family: "Space Grotesk", Inter, sans-serif; letter-spacing: -0.01em; margin: 0; }
 button, input { font: inherit; color: inherit; }
 
 /* ---------- header ---------- */
-header { height: 56px; display: flex; align-items: center; gap: 16px; padding: 0 20px; border-bottom: 1px solid var(--border); background: var(--surface-1); }
+header { flex: none; height: 56px; display: flex; align-items: center; gap: 16px; padding: 0 20px; border-bottom: 1px solid var(--border); background: var(--surface-1); }
 .wordmark { font-family: "Space Grotesk"; font-weight: 700; font-size: 26px; letter-spacing: -0.04em; line-height: 1; }
 .wordmark span { color: var(--accent-strong); }
 .tagline { color: var(--text-secondary); font-size: 13px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -67,7 +68,7 @@ header .spacer { flex: 1; }
 .theme-btn { min-width: 74px; }
 
 /* ---------- layout ---------- */
-main { display: grid; grid-template-columns: 340px minmax(0, 1fr) 430px; height: calc(100vh - 56px); }
+main { flex: 1; min-height: 0; display: grid; grid-template-columns: 340px minmax(0, 1fr) 430px; grid-template-rows: minmax(0, 1fr); }
 aside { overflow-y: auto; background: var(--surface-1); }
 aside.left { border-right: 1px solid var(--border); padding: 18px; }
 aside.right { border-left: 1px solid var(--border); padding: 0; display: flex; flex-direction: column; overflow: hidden; }
@@ -88,7 +89,7 @@ aside.right { border-left: 1px solid var(--border); padding: 0; display: flex; f
 .why-t td.c { text-align: right; color: var(--text-muted); white-space: nowrap; padding-left: 8px; width: 1%; }
 .info-btn { background: none; border: 0; padding: 0 0 0 4px; color: var(--accent-strong); cursor: pointer; font-size: 11px; }
 .info-btn:hover { text-decoration: underline; }
-#score-help { max-width: 640px; }
+#score-help { max-width: min(640px, calc(100vw - 24px)); }
 #score-help .vlist { display: grid; gap: 6px; margin: 8px 0 12px; }
 #score-help .vlist div { display: flex; gap: 8px; align-items: baseline; font-size: 12.5px; color: var(--text-secondary); }
 .cmp-seg { margin-bottom: 8px; }
@@ -140,7 +141,7 @@ aside.right { border-left: 1px solid var(--border); padding: 0; display: flex; f
 .layer-ctl button:hover { color: var(--text-primary); background: var(--surface-2); }
 .layer-ctl button.on { color: var(--on-accent); background: var(--accent-strong); }
 .layer-ctl label { display: flex; align-items: center; gap: 6px; padding: 6px 10px; font-size: 12.5px; color: var(--text-secondary); cursor: pointer; border-left: 1px solid var(--border); }
-.legend { width: 300px; background: color-mix(in srgb, var(--surface-1) 90%, transparent); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 12px; color: var(--text-secondary); }
+.legend { width: min(300px, 100%); background: color-mix(in srgb, var(--surface-1) 90%, transparent); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; font-size: 12px; color: var(--text-secondary); }
 .legend .title { color: var(--text-primary); font-weight: 600; margin-bottom: 6px; }
 .ramp { height: 10px; border-radius: 3px; margin: 4px 0 3px; }
 .ramp-labels { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 11px; }
@@ -165,13 +166,13 @@ aside.right { border-left: 1px solid var(--border); padding: 0; display: flex; f
 /* ask box */
 /* right panel: District | Ask ΣX tabs */
 .tabs { flex: none; display: flex; gap: 2px; padding: 8px 14px 0; border-bottom: 1px solid var(--border); }
-.tabs button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 10px 9px; margin-bottom: -1px; cursor: pointer; color: var(--text-secondary); font-weight: 600; font-size: 13px; }
-.tabs button:hover { color: var(--text-primary); }
-.tabs button.on { color: var(--text-primary); border-bottom-color: var(--accent-strong); }
+.tabs button, .view-nav button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 10px 9px; margin-bottom: -1px; cursor: pointer; color: var(--text-secondary); font-weight: 600; font-size: 13px; }
+.tabs button:hover, .view-nav button:hover { color: var(--text-primary); }
+.tabs button.on, .view-nav button.on { color: var(--text-primary); border-bottom-color: var(--accent-strong); }
 .tabs .sub { color: var(--text-muted); font-weight: 500; }
 .pane { flex: 1; min-height: 0; }
 .pane[hidden] { display: none !important; }
-#detail { overflow-y: auto; padding: 18px 20px 40px; }
+#detail { overflow-y: auto; padding: 18px 20px 40px; container-type: inline-size; }
 #ask-pane { display: flex; flex-direction: column; }
 .chat-log { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
 .chat-intro { color: var(--text-secondary); font-size: 13px; }
@@ -210,13 +211,13 @@ aside.right { border-left: 1px solid var(--border); padding: 0; display: flex; f
 .compare .handle { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); left: 50%; pointer-events: none; box-shadow: 0 0 10px var(--accent); }
 .compare .tag { position: absolute; top: 8px; font: 700 12px "Space Grotesk"; background: rgba(13,13,13,.75); color: #f0efec; padding: 2px 8px; border-radius: 6px; }
 .compare .tag.l { left: 8px; } .compare .tag.r { right: 8px; }
-.compare input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+.compare input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; touch-action: pan-y; }
 .img-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
 .img-row figure { margin: 0; }
 .img-row img { width: 100%; border-radius: 8px; border: 1px solid var(--border); display: block; }
 .img-row figcaption { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
 .section { margin-top: 18px; }
-.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
 .tile { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 9px 10px; }
 .tile .k { font-size: 11px; color: var(--text-muted); line-height: 1.25; min-height: 28px; }
 .tile .v { font: 700 18px/1.2 "Space Grotesk"; margin-top: 2px; }
@@ -239,11 +240,86 @@ aside.right { border-left: 1px solid var(--border); padding: 0; display: flex; f
 .empty { color: var(--text-muted); padding: 40px 10px; text-align: center; }
 
 /* modal */
-dialog { background: var(--surface-1); color: var(--text-primary); border: 1px solid var(--border); border-radius: 14px; max-width: 640px; padding: 22px 24px; }
+dialog { background: var(--surface-1); color: var(--text-primary); border: 1px solid var(--border); border-radius: 14px; max-width: min(640px, calc(100vw - 24px)); padding: 22px 24px; }
 dialog::backdrop { background: var(--backdrop); }
 dialog li { color: var(--text-secondary); margin-bottom: 6px; font-size: 13px; }
 
+/* ---------- smaller screens ---------- */
+/* only used below 1100px: the view switcher, the legend toggle and the phone map card */
+.view-nav, .legend-toggle, .map-peek { display: none; }
+.legend-toggle { align-items: center; gap: 6px; background: color-mix(in srgb, var(--surface-1) 88%, transparent); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; font-size: 12px; font-weight: 600; color: var(--text-secondary); cursor: pointer; }
+.legend-toggle::after { content: '▾'; font-size: 10px; }
+.legend-open .legend-toggle::after { content: '▴'; }
+.map-peek { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 3; align-items: center; gap: 12px; padding: 10px 12px; text-align: left; cursor: pointer; background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 6px 24px var(--shadow); }
+.map-peek .pk-main { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.map-peek .pk-name { font: 700 16px/1.2 "Space Grotesk"; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.map-peek .pk-score { font: 700 26px/1 "Space Grotesk"; color: var(--accent-strong); }
+.map-peek .pk-go { font-size: 12px; font-weight: 600; color: var(--accent-strong); white-space: nowrap; }
+
+@container (max-width: 320px) {
+  .img-row { grid-template-columns: 1fr; }
+  .zone-name { font-size: 22px; }
+  .score-big .n { font-size: 34px; }
+}
+
 @media (max-width: 1280px) { main { grid-template-columns: 290px minmax(0, 1fr) 370px; } }
+
+/* tablet: map beside one panel, picked with the tabs above it */
+@media (max-width: 1100px) {
+  main { grid-template-columns: minmax(0, 1fr) clamp(300px, 42vw, 420px); grid-template-rows: auto minmax(0, 1fr); grid-template-areas: "map nav" "map side"; }
+  .map-wrap { grid-area: map; }
+  aside.left, aside.right { grid-area: side; border-left: 1px solid var(--border); border-right: 0; }
+  main[data-view="detail"] aside.left, main[data-view="ask"] aside.left,
+  main[data-view="map"] aside.right, main[data-view="brief"] aside.right { display: none; }
+  aside.right .tabs { display: none; }
+  .view-nav { grid-area: nav; display: flex; gap: 2px; padding: 8px 14px 0; background: var(--surface-1); border-left: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .view-nav [data-view="map"], .view-nav svg { display: none; }
+}
+@media (max-width: 900px) {
+  .tagline { display: none; }
+  header .chip { min-width: 0; flex-shrink: 1; }  /* the model name truncates before the buttons are pushed off */
+  .chip .dot { flex: none; }
+  #model-chip { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
+
+/* phone: one view at a time, switched from a bottom tab bar */
+@media (max-width: 720px) {
+  header { gap: 6px; padding: 0 12px; }
+  .tagline, .chip { display: none; }
+  .link-btn { padding: 5px 9px; }
+  .theme-btn { min-width: 0; }
+  .theme-btn .lbl { display: none; }
+  main { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; grid-template-areas: "view" "nav"; }
+  .map-wrap, aside.left, aside.right { grid-area: view; border: 0; }
+  main[data-view="map"] aside.left { display: none; }
+  /* hidden, not removed: the map keeps its size, so it needs no resize when shown again. MapLibre forces some
+     controls visible, so the map also sits in its own layer under the panels. */
+  main:not([data-view="map"]) .map-wrap { visibility: hidden; }
+  .map-wrap { z-index: 0; }
+  aside.left, aside.right { position: relative; z-index: 1; }
+  .view-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; padding: 0; border: 0; border-top: 1px solid var(--border); }
+  .view-nav button, .view-nav [data-view="map"] { display: flex; flex-direction: column; align-items: center; gap: 2px; margin: 0; padding: 7px 2px 8px; border: 0; font-size: 11px; font-weight: 500; }
+  .view-nav svg { display: block; width: 22px; height: 22px; }
+  .view-nav button.on { color: var(--accent-strong); font-weight: 600; }
+  .map-top { top: 10px; left: 10px; right: 50px; }
+  .layer-ctl { flex-wrap: nowrap; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .layer-ctl::-webkit-scrollbar { display: none; }
+  .layer-ctl button, .layer-ctl label { flex: none; white-space: nowrap; }
+  .map-peek:not(:empty) { display: flex; }
+  .map-wrap .maplibregl-ctrl-bottom-left, .map-wrap .maplibregl-ctrl-bottom-right { bottom: 74px; }  /* sit above the map card */
+  aside.left { padding: 16px; }
+  #detail { padding: 16px 16px 32px; }
+  .chat-log { padding: 14px; }
+  .chat-form { padding: 10px 12px; }
+  .chat-form input, .legend select { font-size: 16px; }  /* below 16px iOS zooms the page on focus */
+  dialog { padding: 18px 16px; }
+}
+
+/* small or short map: legend folds away behind a toggle (starts open on tablets, closed on phones) */
+@media (max-width: 1100px), (max-height: 560px) {
+  .legend-toggle { display: inline-flex; }
+  .map-top:not(.legend-open) .legend { display: none; }
+}
 </style>
 </head>
 <body>
@@ -257,7 +333,7 @@ dialog li { color: var(--text-secondary); margin-bottom: 6px; font-size: 13px; }
   <button class="link-btn theme-btn" id="theme-toggle" type="button"></button>
 </header>
 
-<main>
+<main id="main" data-view="map">
   <aside class="left">
     <div class="eyebrow">Gemma 4 city brief</div>
     <h2 class="city-headline" id="city-headline">Loading analysis…</h2>
@@ -276,7 +352,7 @@ dialog li { color: var(--text-secondary); margin-bottom: 6px; font-size: 13px; }
 
   <section class="map-wrap">
     <div id="map"></div>
-    <div class="map-top">
+    <div class="map-top" id="map-top">
     <div class="layer-ctl" id="layer-ctl">
       <button data-layer="score" class="on">Kecamatan data</button>
       <button data-layer="rgb">True colour</button>
@@ -286,9 +362,11 @@ dialog li { color: var(--text-secondary); margin-bottom: 6px; font-size: 13px; }
       <button data-layer="night_lights">Night lights</button>
       <label><input type="checkbox" id="hotels-toggle"> Hotels</label>
     </div>
+    <button class="legend-toggle" id="legend-toggle" type="button" aria-expanded="false" aria-controls="legend">Legend</button>
     <div class="legend" id="legend"></div>
     </div>
     <div class="map-tip" id="map-tip"></div>
+    <button class="map-peek" id="map-peek" type="button"></button>
   </section>
 
   <aside class="right">
@@ -308,10 +386,17 @@ dialog li { color: var(--text-secondary); margin-bottom: 6px; font-size: 13px; }
       </form>
     </div>
   </aside>
+
+  <nav class="view-nav" id="view-nav" aria-label="Views">
+    <button type="button" data-view="map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg><span>Map</span></button>
+    <button type="button" data-view="brief"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 20h16M7 16v-5M12 16V6M17 16v-8"/></svg><span>Overview</span></button>
+    <button type="button" data-view="detail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>District</span></button>
+    <button type="button" data-view="ask"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5Z"/></svg><span>Ask ΣX</span></button>
+  </nav>
 </main>
 
 <dialog id="data">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:12px">
+  <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-bottom:10px;gap:12px">
     <h2 style="font-size:20px">All signals · 12 kecamatan</h2>
     <div><a class="link-btn" href="/data/analysis.json" download style="text-decoration:none">Download JSON</a> <button class="link-btn" onclick="downloadCSV()">Download CSV</button> <button class="link-btn" onclick="document.getElementById('data').close()">Close</button></div>
   </div>
@@ -530,7 +615,7 @@ function initMap() {
   map = new maplibregl.Map({
     container: 'map', attributionControl: { compact: true, customAttribution: 'Contains modified Copernicus Sentinel data · HDX COD-AB boundaries' },
     style: BASEMAP[theme()],
-    bounds: bboxOf(state.zones), fitBoundsOptions: { padding: { top: 70, bottom: 110, left: 40, right: 40 } },
+    bounds: bboxOf(state.zones), fitBoundsOptions: { padding: phone.matches ? { top: 90, bottom: 80, left: 12, right: 12 } : { top: 70, bottom: 110, left: 40, right: 40 } },
   });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
   map.on('style.load', addDataLayers);  // also fires after a theme swap, which replaces the whole style
@@ -583,6 +668,7 @@ function bboxOf(fc) {
 function wireMapEvents() {
   const tip = $('map-tip'); let hovered = null;
   map.on('mousemove', 'zone-fill', (e) => {
+    if (touch.matches) return;  // a tap would leave the hover tip stuck on screen; phones get the map card instead
     const f = e.features[0]; map.getCanvas().style.cursor = 'pointer';
     if (hovered !== f.id) { if (hovered) map.setFeatureState({ source: 'zones', id: hovered }, { hover: false }); hovered = f.id; map.setFeatureState({ source: 'zones', id: hovered }, { hover: true }); }
     const z = state.analysis?.zones?.[f.properties.id];
@@ -591,7 +677,7 @@ function wireMapEvents() {
     tip.style.display = 'block'; tip.style.left = `${e.point.x + 14}px`; tip.style.top = `${e.point.y + 14}px`;
   });
   map.on('mouseleave', 'zone-fill', () => { if (hovered) map.setFeatureState({ source: 'zones', id: hovered }, { hover: false }); hovered = null; tip.style.display = 'none'; map.getCanvas().style.cursor = ''; });
-  map.on('click', 'zone-fill', (e) => select(e.features[0].properties.id));
+  map.on('click', 'zone-fill', (e) => select(e.features[0].properties.id, false, !phone.matches));  // phones stay on the map and show the card
   map.on('mouseenter', 'hotels', () => map.getCanvas().style.cursor = 'help');
   map.on('click', 'hotels', (e) => {
     const h = e.features[0].properties;
@@ -621,16 +707,20 @@ function renderLegend() {
   if (fade) fade.addEventListener('input', (e) => map.setPaintProperty(`ov-rgb_${state.latest}`, 'raster-opacity', e.target.value / 100));
 }
 
-function select(id, fly = false) {
+// open: bring the district panel into view on tablets and phones (and start it from the top for a new zone)
+function select(id, fly = false, open = fly) {
   const z = state.analysis?.zones?.[id]; if (!z) return;
+  const fresh = id !== state.selected;
   state.selected = id;
   map?.setFilter('zone-sel', ['==', ['get', 'id'], id]);
   document.querySelectorAll('.rank-item').forEach((el) => el.classList.toggle('active', el.dataset.id === id));
   if (fly) document.querySelector(`.rank-item[data-id="${id}"]`)?.scrollIntoView({ block: 'nearest' });
-  if (fly) { const f = state.zones.features.find((x) => x.properties.id === id); map.fitBounds(bboxOf({ features: [f] }), { padding: 120, maxZoom: 13, duration: 800 }); }
+  if (fly) { const f = state.zones.features.find((x) => x.properties.id === id); map.fitBounds(bboxOf({ features: [f] }), { padding: phone.matches ? 40 : 120, maxZoom: 13, duration: 800 }); }
   renderDetail(z);
   showTab('detail');
+  $('map-peek').innerHTML = `<span class="pk-main"><span class="pk-name">${esc(z.name)}</span>${badge(z.gemma.verdict)}</span><span class="pk-score">${z.gemma.growth_score ?? '—'}</span><span class="pk-go">Details ›</span>`;
   renderSuggest();
+  if (open) { setView('detail'); if (fresh) $('detail').scrollTop = 0; }
 }
 
 function sparkline(series, key, scale = 1, digits = 2, unit = '') {
@@ -795,7 +885,12 @@ function renderDetail(z) {
     <div class="section card reco"><div class="eyebrow">Recommendation for BP Batam / Pemko Batam</div><p class="prose" style="color:var(--text-primary)">${esc(g.recommendation)}</p>
       <p class="prose"><b>Watch next:</b> ${esc(g.watch_next)}</p></div>`;
   $('cmp-seg').querySelectorAll('button').forEach((btn) => btn.addEventListener('click', () => { state.cmp = btn.dataset.v; renderDetail(z); }));
-  $('cmp').addEventListener('input', (e) => { $('after').style.clipPath = `inset(0 0 0 ${e.target.value}%)`; $('handle').style.left = `${e.target.value}%`; });
+  const setCmp = (v) => { $('cmp').value = v; $('after').style.clipPath = `inset(0 0 0 ${v}%)`; $('handle').style.left = `${v}%`; };
+  $('cmp').addEventListener('input', (e) => setCmp(e.target.value));
+  // touch: drag anywhere on the image (iOS only moves a range input from its thumb, which is invisible here)
+  const dragCmp = (e) => { if (e.pointerType === 'mouse' || !e.buttons) return; const r = $('compare').getBoundingClientRect(); setCmp(Math.round(Math.min(100, Math.max(0, 100 * (e.clientX - r.left) / r.width)))); };
+  $('compare').addEventListener('pointerdown', dragCmp);
+  $('compare').addEventListener('pointermove', dragCmp);
   document.querySelectorAll('.spark .pt').forEach((p) => { p.addEventListener('mouseenter', () => p.querySelector('circle').setAttribute('opacity', 1)); p.addEventListener('mouseleave', () => p.querySelector('circle').setAttribute('opacity', 0)); });
 }
 
@@ -839,9 +934,25 @@ function renderSuggest() {
 function showTab(id) {
   document.querySelectorAll('.tabs button').forEach((b) => { const on = b.dataset.tab === id; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
   document.querySelectorAll('aside.right .pane').forEach((p) => { p.hidden = p.id !== id; });
-  if (id === 'ask-pane') $('ask-input').focus();
+  if (id === 'ask-pane' && !touch.matches) $('ask-input').focus();  // on touch screens focusing would pop the keyboard over the suggestions
 }
-document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => showTab(b.dataset.tab)));
+document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => setView(b.dataset.tab === 'ask-pane' ? 'ask' : 'detail')));
+
+// Below 1100px the panels take turns: tablets keep the map beside one panel, phones show one view at a time.
+// The view (map | brief | detail | ask) lives on <main data-view> and the CSS decides what that shows at each width.
+const phone = matchMedia('(max-width: 720px)'), touch = matchMedia('(hover: none)');
+function setView(v) {
+  if (v === 'map' && !phone.matches) v = 'brief';  // the map is always visible beside the panel on wider screens
+  $('main').dataset.view = v;
+  document.querySelectorAll('.view-nav button').forEach((b) => { const on = b.dataset.view === v; b.classList.toggle('on', on); b.setAttribute('aria-current', on); });
+  if (v === 'detail' || v === 'ask') showTab(v === 'ask' ? 'ask-pane' : 'detail');
+}
+document.querySelectorAll('.view-nav button').forEach((b) => b.addEventListener('click', () => setView(b.dataset.view)));
+phone.addEventListener('change', () => { if (!phone.matches && $('main').dataset.view === 'map') setView('brief'); });
+setView(phone.matches ? 'map' : 'brief');
+$('map-peek').addEventListener('click', () => setView('detail'));
+$('legend-toggle').addEventListener('click', (e) => e.currentTarget.setAttribute('aria-expanded', $('map-top').classList.toggle('legend-open')));
+$('legend-toggle').setAttribute('aria-expanded', $('map-top').classList.toggle('legend-open', !phone.matches && innerHeight > 560));
 
 // Gemma answers in Markdown: escape first, then allow bold / italic / code, lists, headings, paragraphs
 function md(text) {
@@ -868,7 +979,7 @@ function addMsg(cls, html) {
 $('ask-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const q = $('ask-input').value.trim(); if (!q) return;
-  showTab('ask-pane');
+  setView('ask');
   const btn = $('ask-btn'); btn.disabled = true; $('ask-input').value = '';
   addMsg('q', esc(q));
   const a = addMsg('a', '<div class="who">ΣX · Gemma 4</div><div class="thinking">Reading the evidence</div>');
@@ -879,7 +990,7 @@ $('ask-form').addEventListener('submit', async (e) => {
     a.innerHTML = `<div class="who">ΣX · ${esc(j.model || 'Gemma 4')}${j.cached ? ' · cached' : ''}</div><div class="md">${md(j.answer || j.error || j.message || 'No answer.')}</div>`;
   } catch (err) { a.innerHTML = '<div class="who">ΣX</div><div class="md"><p>Could not reach Gemma. Try again.</p></div>'; }
   $('chat-log').scrollTop = $('chat-log').scrollHeight;
-  btn.disabled = false; $('ask-input').focus();
+  btn.disabled = false; if (!touch.matches) $('ask-input').focus();
 });
 
 // theme: follows the OS until the viewer picks one, then remembers it
@@ -887,8 +998,9 @@ const theme = () => document.documentElement.dataset.theme === 'light' ? 'light'
 const savedTheme = () => { try { return localStorage.getItem('sigmax-theme'); } catch (e) { return null; } };
 function syncThemeButton() {
   const next = theme() === 'light' ? 'dark' : 'light';
-  $('theme-toggle').textContent = next === 'light' ? '☀ Light' : '☾ Dark';
+  $('theme-toggle').innerHTML = next === 'light' ? '☀<span class="lbl"> Light</span>' : '☾<span class="lbl"> Dark</span>';  // phones show the icon only
   $('theme-toggle').title = `Switch to ${next} mode`;
+  $('theme-toggle').setAttribute('aria-label', `Switch to ${next} mode`);
 }
 function setTheme(t) {
   if (t === theme()) return;
