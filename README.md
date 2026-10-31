@@ -43,7 +43,8 @@ php artisan serve
 `.env` needs `GCP_PROJECT` (registered for Earth Engine), `GEMINI_API_KEY`,
 `GEMMA_MODEL=gemma-4-31b-it` and `GOOGLE_PLACES_API_KEY`.
 
-Deploy: `gcloud run deploy sigmax --source . --region asia-southeast1` (see `Dockerfile`).
+Deploy: `gcloud run deploy sigmax --source . --region asia-southeast1 --project sigmax-batam-2026` (see `Dockerfile`).
+`GEMINI_API_KEY` comes from the separate, unbilled project `sigmax-gemma-2026` so Gemma calls stay on the free tier.
 
 ## Limits
 Indicators, not official statistics. OSM counts partly reflect volunteer mapping effort, especially
